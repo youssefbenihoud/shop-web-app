@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ mongoose.connect('mongodb+srv://admin:aWO05VevmH5CREOl@shop-web-app.wkpdh.mongod
 
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
+app.use('/cart', cartRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
