@@ -25,10 +25,21 @@ function Cart() {
   const handlePlaceOrder = async () => {
     try {
       await createOrder(token);
-      alert('Order placed successfully!');
+      //alert('Order placed successfully!');
+      setSnackbar({
+        open: true,
+        message: 'Order placed successfully!',
+        severity: 'success',
+      });
       setCartItems([]); // Clear cart after placing order
     } catch (error) {
-      alert('Error placing order. Please try again.');
+      //alert('Error placing order. Please try again.');
+      setSnackbar({
+        open: true,
+        message: 'Order failed. Please try again!',
+        severity: 'error',
+      });
+
     }
   };
 

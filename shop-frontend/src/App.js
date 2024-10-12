@@ -4,8 +4,9 @@ import ProductList from './components/ProductList';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Cart from './components/Cart';
-import OrderHistory from './components/OrderHistory'; // Import OrderHistory
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import OrderHistory from './components/OrderHistory';
+import Navbar from './components/Navbar'; // Import Navbar
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -23,24 +24,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Welcome to the Shop</h1>
-          <nav>
-            <Link to="/">Home</Link>
-            {!token ? (
-              <>
-                <Link to="/register">Register</Link>
-                <Link to="/login">Login</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/cart">Cart</Link>
-                <Link to="/orders">Order History</Link>
-                <button onClick={handleLogout}>Logout</button>
-              </>
-            )}
-          </nav>
-        </header>
+        <Navbar token={token} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/register" element={<Register />} />

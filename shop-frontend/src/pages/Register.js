@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { registerUser } from '../services/api';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 
 function Register() {
   const [name, setName] = useState('');
@@ -9,38 +10,62 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await registerUser({ name, email, password });
-      alert('Registration successful! Please log in.');
+      await registerUser({ name, email, password });
+      // alert('Registration successful! Please log in.');
+      setSnackbar({
+        open: true,
+        message: 'Registration successful! Please log in',
+        severity: 'success',
+      });
     } catch (error) {
-      alert('Error registering user. Please try again.');
+      // alert('Error registering user. Please try again.');
+      setSnackbar({
+        open: true,
+        message: 'Error logging in. Please try again.',
+        severity: 'error',
+      });
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Register</button>
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box mt={5}>
+        <Typography variant="h4" gutterBottom>
+          Register
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            label="Email"
+            type="email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button variant="contained" color="primary" type="submit">
+            Register
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 }
 
