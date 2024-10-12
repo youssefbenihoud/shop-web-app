@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar"; // Import Navbar
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProductManagement from "./pages/AdminProductManagement";
+import AdminUserManagement from './pages/AdminUserManagement';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
