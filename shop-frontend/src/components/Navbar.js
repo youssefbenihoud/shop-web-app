@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 
-function Navbar({ token, handleLogout }) {
+function Navbar({ token, handleLogout, isAdmin }) {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -13,6 +13,11 @@ function Navbar({ token, handleLogout }) {
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>
+        {isAdmin && (
+          <Button color="inherit" component={Link} to="/admin/create-product">
+            Create Product
+          </Button>
+        )}
         {!token ? (
           <>
             <Button color="inherit" component={Link} to="/register">

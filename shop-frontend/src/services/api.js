@@ -2,6 +2,16 @@ import axios from 'axios';
 
 const API_URL = 'https://shop-web-application.onrender.com';
 
+
+// Create a product (admin only)
+export const createProduct = async (productData, token) => {
+  return await axios.post(`${API_URL}/products`, productData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 // Register a new user
 export const registerUser = async (userData) => {
   return await axios.post(`${API_URL}/users/register`, userData);
