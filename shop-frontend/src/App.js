@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import ProductList from './components/ProductList';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import Cart from './components/Cart';
-import OrderHistory from './components/OrderHistory';
-import Navbar from './components/Navbar'; // Import Navbar
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import ProductList from "./components/ProductList";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Cart from "./components/Cart";
+import OrderHistory from "./components/OrderHistory";
+import Navbar from "./components/Navbar"; // Import Navbar
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminProductManagement from './pages/AdminProductManagement';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'));
+    setToken(localStorage.getItem("token"));
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setToken(null);
   };
 
@@ -42,6 +43,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <OrderHistory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/create-product"
+            element={
+              <ProtectedRoute>
+                <AdminProductManagement />
               </ProtectedRoute>
             }
           />
