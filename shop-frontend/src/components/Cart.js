@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { getCartItems, createOrder } from '../services/api';
 import { Button, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
+import FeedbackSnackbar from '../components/FeedbackSnackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const token = localStorage.getItem('token');
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
 
   useEffect(() => {
     async function fetchCartItems() {

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { registerUser } from '../services/api';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import FeedbackSnackbar from '../components/FeedbackSnackbar';
 
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
