@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { loginUser } from '../services/api';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import FeedbackSnackbar from '../components/FeedbackSnackbar';
+import { useNavigate } from 'react-router-dom';
 
 function Login({ setToken }) {
   const [email, setEmail] = useState('');
@@ -11,6 +12,8 @@ function Login({ setToken }) {
     message: '',
     severity: 'info',
   });
+
+  const navigate = useNavigate();
 
   const handleSnackbarClose = () => {
     setSnackbar({ ...snackbar, open: false });
@@ -28,6 +31,7 @@ function Login({ setToken }) {
         message: 'Login successful!',
         severity: 'success',
       });
+      navigate('/'); // Redirect to the main page
     } catch (error) {
       setSnackbar({
         open: true,
