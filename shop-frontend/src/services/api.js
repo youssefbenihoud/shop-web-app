@@ -62,3 +62,37 @@ export const getOrders = async (token) => {
     }
   });
 };
+
+// Get all users (admin only)
+export const getAllUsers = async () => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${API_URL}/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+// Update user role (admin only)
+export const updateUserRole = async (userId, isAdmin) => {
+  const token = localStorage.getItem('token');
+  return await axios.put(
+    `${API_URL}/users/role`,
+    { userId, isAdmin },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+// Delete user (admin only)
+export const deleteUser = async (userId) => {
+  const token = localStorage.getItem('token');
+  return await axios.delete(`${API_URL}/users/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

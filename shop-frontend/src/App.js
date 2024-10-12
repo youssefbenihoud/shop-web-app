@@ -8,7 +8,7 @@ import OrderHistory from "./components/OrderHistory";
 import Navbar from "./components/Navbar"; // Import Navbar
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminProductManagement from './pages/AdminProductManagement';
+import AdminProductManagement from "./pages/AdminProductManagement";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -51,6 +51,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminProductManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/manage-users"
+            element={
+              <ProtectedRoute>
+                <AdminUserManagement />
               </ProtectedRoute>
             }
           />

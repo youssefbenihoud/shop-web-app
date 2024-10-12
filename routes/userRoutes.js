@@ -1,6 +1,8 @@
 const express = require('express');
 const { check } = require('express-validator');
 const userController = require('../controllers/userController');
+const { adminAuth } = require('../middleware/auth');
+const { getAllUsers, updateUserRole, deleteUser } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -24,5 +26,14 @@ router.post(
   ],
   userController.loginUser
 );
+
+// Route to get all users (admin only)
+router.get('/users', adminAuth, getAllUsers);
+
+// Route to update a user role (admin only)
+router.put('/users/role', adminAuth, updateUserRole);
+
+// Route to delete a user (admin only)
+router.delete('/users/:userId', adminAuth, deleteUser);
 
 module.exports = router;
