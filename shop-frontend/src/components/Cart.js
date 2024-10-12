@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getCartItems } from '../services/api';
+import { getCartItems, addToCart } from '../services/api';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -20,6 +20,36 @@ function Cart() {
     }
   }, [token]);
 
+  const handleUpdateQuantity = async (productId, quantity) => {
+    if (quantity < 1) {
+      alert('Quantity must be at least 1');
+      return;
+    }
+
+    try {
+      await addToCart(token, productId, quantity);
+      alert('Cart updated successfully!');
+      // Refresh cart items after updating
+      const response = await getCartItems(token);
+      setCartItems(response.data);
+    } catch (error) {
+      alert('Error updating cart. Please try again.');
+    }
+  };
+
+  const handleRemoveItem = async (productId) => {
+    try {
+      // Remove product by setting its quantity to 0
+      await addToCart(token, productId, -9999); // Use a very large negative quantity to ensure it's removed
+      alert('Product removed from cart.');
+      // Refresh cart items after removing
+      const response = await getCartItems(token);
+      setCartItems(response.data);
+    } catch (error) {
+      alert('Error removing product from cart. Please try again.');
+    }
+  };
+
   return (
     <div>
       <h2>Your Cart</h2>
@@ -29,7 +59,18 @@ function Cart() {
         <ul>
           {cartItems.map((item) => (
             <li key={item.product._id}>
-              {item.product.name} - Quantity: {item.quantity}
+              <div>
+                {item.product.name} - Quantity: {item.quantity}
+                <div>
+                  <button onClick={() => handleUpdateQuantity(item.product._id, item.quantity + 1)}>
+                    +
+                  </button>
+                  <button onClick={() => handleUpdateQuantity(item.product._id, item.quantity - 1)}>
+                    -
+                  </button>
+                  <button onClick={() => handleRemoveItem(item.product._id)}>Remove</button>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
