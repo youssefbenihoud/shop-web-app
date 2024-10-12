@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const UserService = require('../services/UserService');
 const userService = new UserService();
 
-exports.registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -37,7 +37,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -97,6 +97,8 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
+  registerUser,
+  loginUser,
   getAllUsers,
   updateUserRole,
   deleteUser,

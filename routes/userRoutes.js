@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const userController = require('../controllers/userController');
 const { adminAuth } = require('../middleware/auth');
-const { getAllUsers, updateUserRole, deleteUser } = require('../controllers/userController');
+const { registerUser, loginUser, getAllUsers, updateUserRole, deleteUser } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post(
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
   ],
-  userController.registerUser
+  registerUser
 );
 
 // Login user
@@ -24,7 +24,7 @@ router.post(
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists()
   ],
-  userController.loginUser
+  loginUser
 );
 
 // Route to get all users (admin only)
