@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllProducts, addToCart } from '../services/api';
-import { Card, CardContent, CardActions, Button, Typography, Grid } from '@mui/material';
+import { Card, CardContent, CardActions, Button, Typography, Grid, Box } from '@mui/material';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -34,8 +34,28 @@ function ProductList() {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
-        Products
+      {/* Hero Section */}
+      <Box
+        sx={{
+          width: '100%',
+          height: '400px',
+          backgroundImage: 'url("https://example.com/hero-image.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#fff',
+        }}
+      >
+        <Typography variant="h2" component="div" sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px #000' }}>
+          Welcome to Our Shop
+        </Typography>
+      </Box>
+
+      {/* Products Section */}
+      <Typography variant="h4" gutterBottom sx={{ mt: 5 }}>
+        Featured Products
       </Typography>
       <Grid container spacing={3}>
         {products.map((product) => (
@@ -50,7 +70,12 @@ function ProductList() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" variant="contained" color="primary" onClick={() => handleAddToCart(product._id)}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAddToCart(product._id)}
+                >
                   Add to Cart
                 </Button>
               </CardActions>
