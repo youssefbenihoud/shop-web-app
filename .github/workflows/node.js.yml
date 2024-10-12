@@ -31,3 +31,7 @@ jobs:
    # Comment out or remove this step if there are no tests yet
     # - name: Run tests
     #   run: npm test
+
+    # Placeholder step for tests to be added in the future
+    - name: Skip tests - to be added later
+      run: echo "Skipping tests. Unit tests to be added in future updates."
