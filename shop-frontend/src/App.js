@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import ProductList from "./components/ProductList";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import ProductList from './components/ProductList';
+import Register from './pages/Register';
+import Login from './pages/Login';
 import Cart from './components/Cart';
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import OrderHistory from './components/OrderHistory'; // Import OrderHistory
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    setToken(localStorage.getItem('token'));
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setToken(null);
   };
 
@@ -32,7 +33,11 @@ function App() {
                 <Link to="/login">Login</Link>
               </>
             ) : (
-              <button onClick={handleLogout}>Logout</button>
+              <>
+                <Link to="/cart">Cart</Link>
+                <Link to="/orders">Order History</Link>
+                <button onClick={handleLogout}>Logout</button>
+              </>
             )}
           </nav>
         </header>
@@ -45,6 +50,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrderHistory />
               </ProtectedRoute>
             }
           />

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getCartItems, addToCart } from '../services/api';
+import { getCartItems, createOrder } from '../services/api';
+import { Button, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -20,60 +22,48 @@ function Cart() {
     }
   }, [token]);
 
-  const handleUpdateQuantity = async (productId, quantity) => {
-    if (quantity < 1) {
-      alert('Quantity must be at least 1');
-      return;
-    }
-
+  const handlePlaceOrder = async () => {
     try {
-      await addToCart(token, productId, quantity);
-      alert('Cart updated successfully!');
-      // Refresh cart items after updating
-      const response = await getCartItems(token);
-      setCartItems(response.data);
+      await createOrder(token);
+      alert('Order placed successfully!');
+      setCartItems([]); // Clear cart after placing order
     } catch (error) {
-      alert('Error updating cart. Please try again.');
-    }
-  };
-
-  const handleRemoveItem = async (productId) => {
-    try {
-      // Remove product by setting its quantity to 0
-      await addToCart(token, productId, -9999); // Use a very large negative quantity to ensure it's removed
-      alert('Product removed from cart.');
-      // Refresh cart items after removing
-      const response = await getCartItems(token);
-      setCartItems(response.data);
-    } catch (error) {
-      alert('Error removing product from cart. Please try again.');
+      alert('Error placing order. Please try again.');
     }
   };
 
   return (
     <div>
-      <h2>Your Cart</h2>
+      <Typography variant="h4" gutterBottom>
+        Your Cart
+      </Typography>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <Typography variant="body1">Your cart is empty.</Typography>
       ) : (
-        <ul>
-          {cartItems.map((item) => (
-            <li key={item.product._id}>
-              <div>
-                {item.product.name} - Quantity: {item.quantity}
-                <div>
-                  <button onClick={() => handleUpdateQuantity(item.product._id, item.quantity + 1)}>
-                    +
-                  </button>
-                  <button onClick={() => handleUpdateQuantity(item.product._id, item.quantity - 1)}>
-                    -
-                  </button>
-                  <button onClick={() => handleRemoveItem(item.product._id)}>Remove</button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <List>
+            {cartItems.map((item) => (
+              <ListItem key={item.product._id}>
+                <ListItemText
+                  primary={item.product.name}
+                  secondary={`Quantity: ${item.quantity}`}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" onClick={() => handlePlaceOrder(item.product._id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handlePlaceOrder}
+          >
+            Place Order
+          </Button>
+        </>
       )}
     </div>
   );

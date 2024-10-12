@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProducts } from '../services/api';
+import { getAllProducts, addToCart } from '../services/api';
+import { Card, CardContent, CardActions, Button, Typography, Grid } from '@mui/material';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     async function fetchProducts() {
@@ -16,18 +18,46 @@ function ProductList() {
     fetchProducts();
   }, []);
 
+  const handleAddToCart = async (productId) => {
+    if (!token) {
+      alert('Please log in to add items to your cart.');
+      return;
+    }
+
+    try {
+      await addToCart(token, productId, 1);
+      alert('Product added to cart successfully!');
+    } catch (error) {
+      alert('Error adding product to cart. Please try again.');
+    }
+  };
+
   return (
     <div>
-      <h2>Products</h2>
-      <div>
-        {products.map(product => (
-          <div key={product._id}>
-            <h4>{product.name}</h4>
-            <p>Price: ${product.price}</p>
-            <button>Add to Cart</button>
-          </div>
+      <Typography variant="h4" gutterBottom>
+        Products
+      </Typography>
+      <Grid container spacing={3}>
+        {products.map((product) => (
+          <Grid item xs={12} sm={6} md={4} key={product._id}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {product.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Price: ${product.price}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained" color="primary" onClick={() => handleAddToCart(product._id)}>
+                  Add to Cart
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }

@@ -43,3 +43,12 @@ export const createOrder = async (token) => {
     }
   });
 };
+
+// Get all orders
+export const getOrders = async (token) => {
+  return await axios.get(`${API_URL}/orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
