@@ -1,7 +1,21 @@
 const ProductService = require('../services/ProductService');
 const productService = new ProductService();
 
-exports.getAllProducts = async (req, res) => {
+// Controller function to create a new product
+const createProduct = async (req, res) => {
+  try {
+    const { name, price, description } = req.body;
+
+    // Call ProductService to add the product
+    const newProduct = await productService.addProduct({ name, price, description });
+    
+    res.status(201).json(newProduct); // Send the new product as a response
+  } catch (error) {
+    res.status(400).json({ error: error.message }); // Handle errors
+  }
+};
+
+const getAllProducts = async (req, res) => {
   try {
     const products = await productService.getAllProducts();
     res.json(products);
@@ -49,4 +63,9 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while deleting the product.' });
   }
+};
+
+module.exports = {
+  createProduct,
+  getAllProducts
 };
