@@ -5,12 +5,14 @@ const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:aWO05VevmH5CREOl@shop-web-app.wkpdh.mongodb.net/';
 
 app.use(express.json());
+app.use(cors()); // Allow all origins by default
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI, {
